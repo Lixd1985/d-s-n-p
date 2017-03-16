@@ -7,8 +7,8 @@ ENV GLIBC_VERSION 2.23-r3
 
 ENV INTERFACE eth0
 ENV METHOD aes-256-cfb
-ENV PASSWORD 666666
-ENV PORT 1111
+ENV PASSWORD 123456
+ENV PORT 20080
 
 RUN apk add --no-cache bash git py-pip libnet libpcap libnet-dev libpcap-dev gcc g++ supervisor
 
@@ -24,7 +24,7 @@ RUN chmod +x /usr/local/bin/net_speeder
 RUN mkdir -p /etc/supervisor/conf.d/ /var/log/supervisor/
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 
-EXPOSE 1111
+EXPOSE 20080
 
 # Configure container to run as an executable
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
