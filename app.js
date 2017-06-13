@@ -3,12 +3,12 @@ new Vue({
     data: {
         email: '',
         password: '',
-        configs: null
+        configs: null,
         //configsCache:localStorage.configsCache
     },
     methods: {
         newConfig: function () {
-            layer.msg('解析中', {
+            layer.msg('Just a moment...', {
                 time: 0, //不自动关闭
                 shadeClose: false,
                 shade: 0.3
@@ -16,13 +16,16 @@ new Vue({
 
             this.$http.get('api.php?email=' + this.email + '&password=' + this.password, {emulateJSON: true}).then(
                 function (response) {
-                    if (response.body.status == 401 || response.body == null) {
-                        layer.msg(response.body.message, {icon: 2});
+                    if (response.body.indexOf('Failed') != -1) {
+                        layer.msg(response.body, {icon: 2});
                         return
                     }
-                    //var result = JSON.parse(response.body)
-                    var result = response.body
-                    this.configs = []               
+                    var result = JSON.parse(response.body)
+                    if (result.data.length<1) {
+                        layer.msg('Failed !');
+                        return
+                    }
+                    this.configs = []
                     for (var i = 0; i < result.data.length; i++) {
                         var mappingsObj = result.data[i].attributes.port_mappings
                         var cmd = result.data[i].attributes.cmd
@@ -52,14 +55,7 @@ new Vue({
                             }
                         }
                     }
-                    
-                    if (!this.configs.length>0) {
-                        layer.msg('没有创建或启动任何实例', {icon: 5});
-                        return
-                    }
-                    
-                    layer.msg('解析成功!', {icon: 6})
-                    //localStorage.configsCache = this.configs
+                    layer.msg('Successful !')
                 }
             )
         },
@@ -91,8 +87,5 @@ new Vue({
             $("canvas").remove()
             $("#"+port).qrcode(url)
         },
-        lmsg: function () {
-            layer.msg('Everything is Nothing', {icon: 6})
-        }
     }
 })
