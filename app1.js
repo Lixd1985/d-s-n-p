@@ -1,5 +1,5 @@
 new Vue({
-    el: '#app11',
+    el: '#app1',
     data: {
         email: '',
         password: '',
@@ -14,7 +14,7 @@ new Vue({
                 shade: 0.3
             });
 
-            this.$http.get('api11.php?email=' + this.email + '&password=' + this.password, {emulateJSON: true}).then(
+            this.$http.get('api1.php?email=' + this.email + '&password=' + this.password, {emulateJSON: true}).then(
                 function (response) {
                     if (response.body.indexOf('Failed') != -1) {
                         layer.msg(response.body, {icon: 2});
