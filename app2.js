@@ -1,5 +1,5 @@
 new Vue({
-    el: '#app',
+    el: '#app2',
     data: {
         email: '',
         password: '',
